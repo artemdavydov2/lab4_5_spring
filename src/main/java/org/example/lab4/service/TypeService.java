@@ -7,24 +7,24 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-// Клас інкапсулює бізнес-логіку CRUD для сутності Type.
+// Клас інкапсулює бізнес-логіку CRUD для сутності Type
 @Service
 public class TypeService {
 
-    // Поле зберігає репозиторій для доступу до таблиці Types.
+    // Поле зберігає репозиторій для доступу до таблиці Types
     private final TypeRepository typeRepository;
 
-    // Конструктор ініціалізує сервіс репозиторієм типів.
+    // Конструктор ініціалізує сервіс репозиторієм типів
     public TypeService(TypeRepository typeRepository) {
         this.typeRepository = typeRepository;
     }
 
-    // Повертає список усіх типів із бази даних.
+    // Повертає список усіх типів із бази даних
     public List<Type> getAll() {
-        return typeRepository.findAll();
+        return typeRepository.findAllByOrderByIdAsc();
     }
 
-    // Створює новий тип з переданою назвою.
+    // Створює новий тип з переданою назвою
     public String createType(String name) {
         if (name == null || name.isBlank()) {
             return "Вкажіть назву для створення.";
@@ -39,7 +39,7 @@ public class TypeService {
         }
     }
 
-    // Оновлює назву існуючого типу за його ID.
+    // Оновлює назву існуючого типу за його ID
     public String updateType(Long id, String newName) {
         if (id == null || newName == null || newName.isBlank()) {
             return "Вкажіть ID та нову назву для оновлення.";
@@ -58,7 +58,7 @@ public class TypeService {
         }
     }
 
-    // Видаляє тип за переданим ID.
+    // Видаляє тип за переданим ID
     public String deleteType(Long id) {
         if (id == null) {
             return "Вкажіть ID для видалення.";

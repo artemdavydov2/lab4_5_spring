@@ -9,28 +9,28 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-// Клас інкапсулює бізнес-логіку CRUD для сутності Project та її зв'язку з Type.
+// Клас інкапсулює бізнес-логіку CRUD для сутності Project та її зв'язку з Type
 @Service
 public class ProjectService {
 
-    // Поле зберігає репозиторій для доступу до таблиці Projects.
+    // Поле зберігає репозиторій для доступу до таблиці Projects
     private final ProjectRepository projectRepository;
 
-    // Поле зберігає репозиторій для доступу до таблиці Types.
+    // Поле зберігає репозиторій для доступу до таблиці Types
     private final TypeRepository typeRepository;
 
-    // Конструктор ініціалізує сервіс репозиторіями проєктів і типів.
+    // Конструктор ініціалізує сервіс репозиторіями проєктів і типів
     public ProjectService(ProjectRepository projectRepository, TypeRepository typeRepository) {
         this.projectRepository = projectRepository;
         this.typeRepository = typeRepository;
     }
 
-    // Повертає список усіх проєктів із бази даних.
+    // Повертає список усіх проєктів із бази даних
     public List<Project> getAll() {
-        return projectRepository.findAll();
+        return projectRepository.findAllByOrderByIdAsc();
     }
 
-    // Створює новий проєкт з указаним URL і типом.
+    // Створює новий проєкт з указаним URL і типом
     public String createProject(String url, String typeName) {
         if (url == null || url.isBlank()) {
             return "Вкажіть URL для створення.";
@@ -38,7 +38,7 @@ public class ProjectService {
 
         String trimmedUrl = url.trim();
 
-        // Перевіряє, чи проєкт з таким URL уже існує.
+        // Перевіряє, чи проєкт з таким URL уже існує
         Optional<Project> existingProject = projectRepository.findByUrl(trimmedUrl);
         if (existingProject.isPresent()) {
             return "Проєкт з таким URL вже існує.";
@@ -63,7 +63,7 @@ public class ProjectService {
         }
     }
 
-    // Оновлює існуючий проєкт за ID, змінюючи URL та тип.
+    // Оновлює існуючий проєкт за ID, змінюючи URL та тип
     public String updateProject(Long id, String url, String typeName) {
         if (id == null || url == null || url.isBlank() || typeName == null || typeName.isBlank()) {
             return "Вкажіть ID, url та type_name для оновлення.";
@@ -76,7 +76,7 @@ public class ProjectService {
 
         String trimmedUrl = url.trim();
 
-        // Перевіряє, чи заданий URL вже не використовується іншим проєктом.
+        // Перевіряє, чи заданий URL вже не використовується іншим проєктом
         Optional<Project> projectWithSameUrl = projectRepository.findByUrl(trimmedUrl);
         if (projectWithSameUrl.isPresent() && !projectWithSameUrl.get().getId().equals(id)) {
             return "Проєкт з таким URL вже існує.";
@@ -99,7 +99,7 @@ public class ProjectService {
         }
     }
 
-    // Видаляє проєкт за переданим ID.
+    // Видаляє проєкт за переданим ID
     public String deleteProject(Long id) {
         if (id == null) {
             return "Вкажіть ID для видалення.";
