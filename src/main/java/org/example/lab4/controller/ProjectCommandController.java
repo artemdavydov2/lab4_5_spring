@@ -1,4 +1,3 @@
-// ProjectCommandController.java
 package org.example.lab4.controller;
 
 import org.example.lab4.service.ProjectService;
